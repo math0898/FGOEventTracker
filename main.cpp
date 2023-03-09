@@ -2,6 +2,10 @@
 #include <fstream>
 #include "color_codes.hpp"
 
+#define HUMAN_BRONZE "Mugs"
+#define HUMAN_SILVER "Keychains"
+#define HUMAN_GOLD "Plushies"
+
 using namespace std;
 
 /**
@@ -10,11 +14,14 @@ using namespace std;
  * @param data The data to print to the console.
  */
 void status (long* data) {
-    cout << endl;
-    cout << C_WHITE << "---- Currently Remaining ----" << endl;
-    cout << C_GOLD << "Mugs: " << C_RESET << data[0] << endl;
-    cout << C_GREEN << "Keychains: " << C_RESET << data[1] << endl;
-    cout << C_RED << "Plushies: " << C_RESET << data[2] << endl; 
+    cout << C_MAGENTA << HUMAN_BRONZE << " (" << data[0] << ") ";
+    cout << C_WHITE << HUMAN_SILVER << " (" << data[1] << ") ";
+    cout << C_GOLD << HUMAN_GOLD << " (" << data[2] << ") ";
+    // cout << endl;
+    // cout << C_WHITE << "---- Currently Remaining ----" << endl;
+    // cout << C_GOLD << "Mugs: " << C_RESET << data[0] << endl;
+    // cout << C_GREEN << "Keychains: " << C_RESET << data[1] << endl;
+    // cout << C_RED << "Plushies: " << C_RESET << data[2] << endl; 
 }
 
 /**
@@ -88,7 +95,7 @@ int main () {
     string input;
     while (input != "exit") {
         status(data);
-        cout << endl << C_GRAY << "> " << C_RESET ;
+        cout << C_GRAY << "> " << C_RESET ;
         cin >> input;
         if (input == "set") {
             string sel;

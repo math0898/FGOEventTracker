@@ -23,11 +23,6 @@ void status (long* data, Event* event) {
     cout << C_MAGENTA << HUMAN_BRONZE << " (" << data[0] << ") ";
     cout << C_WHITE << HUMAN_SILVER << " (" << data[1] << ") ";
     cout << C_GOLD << HUMAN_GOLD << " (" << data[2] << ") ";
-    // cout << endl;
-    // cout << C_WHITE << "---- Currently Remaining ----" << endl;
-    // cout << C_GOLD << "Mugs: " << C_RESET << data[0] << endl;
-    // cout << C_GREEN << "Keychains: " << C_RESET << data[1] << endl;
-    // cout << C_RED << "Plushies: " << C_RESET << data[2] << endl; 
 }
 
 /**
@@ -119,14 +114,15 @@ int main () {
             cin >> t1;
             cin >> t2;
             data[0] -= atoi(t1.c_str()) * (3 + atoi(t2.c_str()));
-            cout << C_GREEN << "Keychains " << C_GRAY << "(Count/Bonus): " << C_RESET;
+            cout << CURSOR_UP << ERASE_IN_LINE << C_GREEN << "Keychains " << C_GRAY << "(Count/Bonus): " << C_RESET;
             cin >> t1;
             cin >> t2;
             data[1] -= atoi(t1.c_str()) * (3 + atoi(t2.c_str()));
-            cout << C_RED << "Plushies " << C_GRAY << "(Count/Bonus): " << C_RESET;
+            cout << CURSOR_UP << ERASE_IN_LINE << C_RED << "Plushies " << C_GRAY << "(Count/Bonus): " << C_RESET;
             cin >> t1;
             cin >> t2;
             data[2] -= atoi(t1.c_str()) * (3 + atoi(t2.c_str()));
+            cout << CURSOR_UP << ERASE_IN_LINE;
         } else if (input == "ap") ap(data);
     }
 

@@ -12,9 +12,9 @@ using namespace std;
 void status (long* data) {
     cout << endl;
     cout << C_WHITE << "---- Currently Remaining ----" << endl;
-    cout << C_GOLD << "Dry Firewood: " << C_RESET << data[0] << endl;
-    cout << C_GREEN << "Fresh Vegetables: " << C_RESET << data[1] << endl;
-    cout << C_RED << "Mini Chainsaws: " << C_RESET << data[2] << endl; 
+    cout << C_GOLD << "Mugs: " << C_RESET << data[0] << endl;
+    cout << C_GREEN << "Keychains: " << C_RESET << data[1] << endl;
+    cout << C_RED << "Plushies: " << C_RESET << data[2] << endl; 
 }
 
 /**
@@ -26,10 +26,10 @@ void ap (long* data) {
     cout << endl;
     cout << C_WHITE << "     ---- Remaining AP Costs ----     " << endl;
     cout << C_GRAY <<  "(Assumes optimal single farming nodes)" << endl;
-    cout << C_GOLD <<  "    Dry Firewood: " << C_RESET << (data[0] * 0.899) << endl;
-    cout << C_GREEN << "Fresh Vegetables: " << C_RESET << (data[1] * 0.866) << endl;
-    cout << C_RED <<   "  Mini Chainsaws: " << C_RESET << (data[2] * 0.868) << endl;
-    cout << C_WHITE << "           Total: " << C_RESET << (data[0] * 0.899) + (data[1] * 0.866) + (data[2] * 0.868) << endl;
+    cout << C_GOLD <<  "     Mugs: " << C_RESET << (data[0] * 0.909) << endl;
+    cout << C_GREEN << "Keychains: " << C_RESET << (data[1] * 0.849) << endl;
+    cout << C_RED <<   " Plushies: " << C_RESET << (data[2] * 0.873) << endl;
+    cout << C_WHITE << "    Total: " << C_RESET << (data[0] * 0.909) + (data[1] * 0.849) + (data[2] * 0.873) << endl;
 }
 
 /**
@@ -42,9 +42,9 @@ void save (long* data) {
     file->open("data.yml", ios::out);
 
     file->clear();
-    *file << "wood: " << data[0] << endl;
-    *file << "veggies: " << data[1] << endl;
-    *file << "saws: " << data[2] << endl;
+    *file << "mugs: " << data[0] << endl;
+    *file << "keychains: " << data[1] << endl;
+    *file << "plushies: " << data[2] << endl;
 
     file->close();
     delete(file);
@@ -69,9 +69,9 @@ void load (long* data) {
 
     while (!file->eof() && temp != "") {
         *file >> temp;
-        if (temp == "wood:") index = 0;
-        else if (temp == "veggies:") index = 1;
-        else if (temp == "saws:") index = 2;
+        if (temp == "mugs:") index = 0;
+        else if (temp == "keychains:") index = 1;
+        else if (temp == "plushies:") index = 2;
         *file >> temp;
         data[index] = atoi(temp.c_str());
     }
@@ -82,7 +82,7 @@ void load (long* data) {
 
 int main () {
 
-    long* data = new long[3]{ 0 }; // WOOD VEGGIES SAWS
+    long* data = new long[3]{ 0 }; // MUGS KEYCHAINS PLUSHIES
     load(data);
 
     string input;
@@ -94,21 +94,21 @@ int main () {
             string sel;
             cin >> sel;
             int index = 0;
-            if (sel == "veggies") index = 1;
-            else if (sel == "saws") index = 2;
+            if (sel == "keychains") index = 1;
+            else if (sel == "plushies") index = 2;
             cin >> sel;
             data[index] = atoi(sel.c_str());
         } else if (input == "run") {
             string t1, t2;
-            cout << C_GOLD << "Wood " << C_GRAY << "(Count/Bonus): " << C_RESET;
+            cout << C_GOLD << "Mugs " << C_GRAY << "(Count/Bonus): " << C_RESET;
             cin >> t1;
             cin >> t2;
             data[0] -= atoi(t1.c_str()) * (3 + atoi(t2.c_str()));
-            cout << C_GREEN << "Veggies " << C_GRAY << "(Count/Bonus): " << C_RESET;
+            cout << C_GREEN << "Keychains " << C_GRAY << "(Count/Bonus): " << C_RESET;
             cin >> t1;
             cin >> t2;
             data[1] -= atoi(t1.c_str()) * (3 + atoi(t2.c_str()));
-            cout << C_RED << "Saws " << C_GRAY << "(Count/Bonus): " << C_RESET;
+            cout << C_RED << "Plushies " << C_GRAY << "(Count/Bonus): " << C_RESET;
             cin >> t1;
             cin >> t2;
             data[2] -= atoi(t1.c_str()) * (3 + atoi(t2.c_str()));

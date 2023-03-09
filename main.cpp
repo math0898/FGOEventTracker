@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "color_codes.hpp"
+#include "event.hpp"
 
 #define HUMAN_BRONZE "Mugs"
 #define HUMAN_SILVER "Keychains"
@@ -12,8 +13,13 @@ using namespace std;
  * @brief Utility method to print out the current collection counts.
  * 
  * @param data The data to print to the console.
+ * @param event The currently loaded event.
  */
-void status (long* data) {
+void status (long* data, Event* event) {
+    cout << C_GRAY << " ---- Current Event: ";
+    if (event == nullptr) cout << " No Event Loaded";
+    else cout << event->getDisplayname();
+    cout << " ---- " << endl;
     cout << C_MAGENTA << HUMAN_BRONZE << " (" << data[0] << ") ";
     cout << C_WHITE << HUMAN_SILVER << " (" << data[1] << ") ";
     cout << C_GOLD << HUMAN_GOLD << " (" << data[2] << ") ";
@@ -90,11 +96,13 @@ void load (long* data) {
 int main () {
 
     long* data = new long[3]{ 0 }; // MUGS KEYCHAINS PLUSHIES
+    Event* currentEvent = nullptr;
+    int linesToClear = 0;
     load(data);
 
     string input;
     while (input != "exit") {
-        status(data);
+        status(data, currentEvent);
         cout << C_GRAY << "> " << C_RESET ;
         cin >> input;
         if (input == "set") {
@@ -124,6 +132,6 @@ int main () {
 
     save(data);
     cout << endl;
-    delete(data);
+    delete[](data);
     return 0;
 }

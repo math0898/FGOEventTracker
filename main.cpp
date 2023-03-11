@@ -35,17 +35,17 @@ void ap (long* data) {
     cout << endl;
     cout << C_WHITE << "     ---- Remaining AP Costs ----     " << endl;
     cout << C_GRAY <<  "(Assumes optimal single farming nodes)" << endl;
-    cout << C_GOLD <<  "     Mugs: " << C_RESET << (data[0] * 0.909) << endl;
-    cout << C_GREEN << "Keychains: " << C_RESET << (data[1] * 0.849) << endl;
-    cout << C_RED <<   " Plushies: " << C_RESET << (data[2] * 0.873) << endl;
-    cout << C_WHITE << "    Total: " << C_RESET << (data[0] * 0.909) + (data[1] * 0.849) + (data[2] * 0.873) << endl;
+    cout << C_MAGENTA <<  "     Mugs: " << C_RESET << (data[0] * 0.909) / 3.0 << endl;
+    cout << C_WHITE << "Keychains: " << C_RESET << (data[1] * 0.849) / 3.0 << endl;
+    cout << C_GOLD <<   " Plushies: " << C_RESET << (data[2] * 0.873) / 3.0 << endl;
+    cout << C_GREEN << "    Total: " << C_RESET << (data[0] * 0.909) / 3.0 + (data[1] * 0.849) / 3.0 + (data[2] * 0.873) / 3.0 << endl;
     
     cout << endl;
     cout << C_GRAY <<  "(Assumes optimal multiple farming node)" << endl;
     double* rates = new double[3]{ 1.451, 1.412, 1.387 };
-    cout << C_GOLD <<  "     Mugs: " << C_RESET << (data[0] * rates[0]) << endl;
-    cout << C_GREEN << "Keychains: " << C_RESET << (data[1] * rates[1]) << endl;
-    cout << C_RED <<   " Plushies: " << C_RESET << (data[2] * rates[2]) << endl;
+    cout << C_MAGENTA <<  "     Mugs: " << C_RESET << (data[0] * rates[0]) / 3.0 << endl;
+    cout << C_WHITE << "Keychains: " << C_RESET << (data[1] * rates[1]) / 3.0 << endl;
+    cout << C_GOLD <<   " Plushies: " << C_RESET << (data[2] * rates[2]) / 3.0 << endl;
     int runs = 0;
     for (int i = 0; i < 3; i++) {
         int t = 0;
@@ -54,7 +54,7 @@ void ap (long* data) {
     }
     delete[](rates);
 
-    cout << C_WHITE << "    Total: " << C_RESET << runs * 40 << " (" << runs << " runs)" << endl;
+    cout << C_GREEN << "    Total: " << C_RESET << runs * 40 << " (" << runs << " runs)" << endl;
 }
 
 /**
@@ -132,8 +132,9 @@ int main () {
     string input;
     char* buffer = new char[256]{ ' ' };
     while (input != "exit") {
+        for (int i = 0; i < 3; i++) if (data[i] < 0) data[i] = 0;
         status(data, currentEvent);
-        cout << C_GRAY << "> " << C_RESET ;
+        cout << C_GRAY << "> " << C_RESET;
         cin.getline(buffer, 256);
         input = string(buffer, c_strLength(buffer, 256) - 1); // -1 to remove trailing newline
         vector<string> args = argsFromString(input);
@@ -146,19 +147,19 @@ int main () {
             cin >> sel;
             data[index] = atoi(sel.c_str());
         } else if (args[0] == "run") {
-            string t1, t2;
-            cout << C_GOLD << "Mugs " << C_GRAY << "(Count/Bonus): " << C_RESET;
-            cin >> t1;
-            cin >> t2;
-            data[0] -= atoi(t1.c_str()) * (3 + atoi(t2.c_str()));
-            cout << CURSOR_UP << ERASE_IN_LINE << C_GREEN << "Keychains " << C_GRAY << "(Count/Bonus): " << C_RESET;
-            cin >> t1;
-            cin >> t2;
-            data[1] -= atoi(t1.c_str()) * (3 + atoi(t2.c_str()));
-            cout << CURSOR_UP << ERASE_IN_LINE << C_RED << "Plushies " << C_GRAY << "(Count/Bonus): " << C_RESET;
-            cin >> t1;
-            cin >> t2;
-            data[2] -= atoi(t1.c_str()) * (3 + atoi(t2.c_str()));
+            char* buffer = new char[16]{ ' ' };
+            cout << C_MAGENTA << "Mugs " << C_GRAY << "(Count/Bonus): " << C_RESET;
+            cin.getline(buffer, 16);
+            vector<string> t = argsFromString(buffer);
+            data[0] -= atoi(t[0].c_str()) * (3 + atoi(t[1].c_str()));
+            cout << CURSOR_UP << ERASE_IN_LINE << C_WHITE << "Keychains " << C_GRAY << "(Count/Bonus): " << C_RESET;
+            cin.getline(buffer, 16);
+            t = argsFromString(buffer);
+            data[1] -= atoi(t[0].c_str()) * (3 + atoi(t[1].c_str()));
+            cout << CURSOR_UP << ERASE_IN_LINE << C_GOLD << "Plushies " << C_GRAY << "(Count/Bonus): " << C_RESET;
+            cin.getline(buffer, 16);
+            t = argsFromString(buffer);
+            data[2] -= atoi(t[0].c_str()) * (3 + atoi(t[1].c_str()));
             cout << CURSOR_UP << ERASE_IN_LINE;
         } else if (args[0] == "ap") ap(data);
     }

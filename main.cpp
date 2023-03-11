@@ -39,6 +39,22 @@ void ap (long* data) {
     cout << C_GREEN << "Keychains: " << C_RESET << (data[1] * 0.849) << endl;
     cout << C_RED <<   " Plushies: " << C_RESET << (data[2] * 0.873) << endl;
     cout << C_WHITE << "    Total: " << C_RESET << (data[0] * 0.909) + (data[1] * 0.849) + (data[2] * 0.873) << endl;
+    
+    cout << endl;
+    cout << C_GRAY <<  "(Assumes optimal multiple farming node)" << endl;
+    double* rates = new double[3]{ 1.451, 1.412, 1.387 };
+    cout << C_GOLD <<  "     Mugs: " << C_RESET << (data[0] * rates[0]) << endl;
+    cout << C_GREEN << "Keychains: " << C_RESET << (data[1] * rates[1]) << endl;
+    cout << C_RED <<   " Plushies: " << C_RESET << (data[2] * rates[2]) << endl;
+    int runs = 0;
+    for (int i = 0; i < 3; i++) {
+        int t = 0;
+        for (; data[i] - (t * rates[i] * 40) > 0; t++);
+        if (t > runs) runs = t;
+    }
+    delete[](rates);
+
+    cout << C_WHITE << "    Total: " << C_RESET << runs * 40 << " (" << runs << " runs)" << endl;
 }
 
 /**

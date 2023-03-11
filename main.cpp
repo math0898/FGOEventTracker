@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include "color_codes.hpp"
 #include "event.hpp"
 
@@ -88,6 +89,23 @@ void load (long* data) {
     delete(file);
 }
 
+int c_strLength (char* str, int length) {
+    for (int i = 0; i < length; i++) if (str[i] == (char) NULL) return i + 1;
+    return length;
+}
+
+vector<string> argsFromString (string str) {
+    vector<string> v = vector<string>();
+    int j = 0;
+    for (int i = 0; i < str.size(); i++) {
+        if (str[i] == ' ') {
+            v.push_back(str.substr(j, i - j));
+            j = i + 1;
+        } else if (i == str.size() - 1) v.push_back(str.substr(j, i - j  + 1));
+    }
+    return v;
+}
+
 int main () {
 
     long* data = new long[3]{ 0 }; // MUGS KEYCHAINS PLUSHIES
@@ -96,11 +114,14 @@ int main () {
     load(data);
 
     string input;
+    char* buffer = new char[256]{ ' ' };
     while (input != "exit") {
         status(data, currentEvent);
         cout << C_GRAY << "> " << C_RESET ;
-        cin >> input;
-        if (input == "set") {
+        cin.getline(buffer, 256);
+        input = string(buffer, c_strLength(buffer, 256) - 1); // -1 to remove trailing newline
+        vector<string> args = argsFromString(input);
+        if (args[0] == "set") {
             string sel;
             cin >> sel;
             int index = 0;
@@ -108,7 +129,7 @@ int main () {
             else if (sel == "plushies") index = 2;
             cin >> sel;
             data[index] = atoi(sel.c_str());
-        } else if (input == "run") {
+        } else if (args[0] == "run") {
             string t1, t2;
             cout << C_GOLD << "Mugs " << C_GRAY << "(Count/Bonus): " << C_RESET;
             cin >> t1;
@@ -123,7 +144,7 @@ int main () {
             cin >> t2;
             data[2] -= atoi(t1.c_str()) * (3 + atoi(t2.c_str()));
             cout << CURSOR_UP << ERASE_IN_LINE;
-        } else if (input == "ap") ap(data);
+        } else if (args[0] == "ap") ap(data);
     }
 
     save(data);

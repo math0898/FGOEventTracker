@@ -138,7 +138,31 @@ int main () {
         cin.getline(buffer, 256);
         input = string(buffer, c_strLength(buffer, 256) - 1); // -1 to remove trailing newline
         vector<string> args = argsFromString(input);
-        if (args[0] == "set") {
+        if (args[0] == "prisms") {
+            cout << "Hello world!" << endl;
+            string sel;
+            long days = 0;
+            long target = 0;
+            long current = 0;
+            const long AP_PER_APPLE = 137;
+            const float AP_PER_PRISM = 3.333;
+            cout << C_YELLOW << "Days: ";
+            cin >> sel;
+            days = atoi(sel.c_str()) - 1;
+            cout << CURSOR_UP << ERASE_IN_LINE << C_WHITE << "Current: ";
+            cin >> sel;
+            current = atoi(sel.c_str());
+            cout << CURSOR_UP << ERASE_IN_LINE << C_GREEN << "Target: ";
+            cin >> sel;
+            target = atoi(sel.c_str());
+            cout << CURSOR_UP << ERASE_IN_LINE << C_GRAY << "Have: " << current << "/" << target << " (" << ((float) current ) / ((float) target) * 100.0 << ")" << endl;
+            const long PASSIVE_AP = (days * 24 * 60) / 5; // 24 hours, 60 minutes, 1 AP : 5 minutes
+            const double NEEDED_AP = (target - current - (days * 30)) * AP_PER_PRISM;
+            cout << C_GRAY << "Passive AP: " << PASSIVE_AP << endl;
+            cout << C_GRAY << "Needed AP: " << NEEDED_AP << endl;
+            if (PASSIVE_AP > NEEDED_AP) cout << C_GRAY << "Use: " << (NEEDED_AP / PASSIVE_AP) * 100.0<< "\% of AP" << endl;
+            else cout << C_GRAY << "Deficit: " << (NEEDED_AP - PASSIVE_AP) / AP_PER_APPLE << " Apples" << endl;
+        } else if (args[0] == "set") {
             string sel;
             cin >> sel;
             int index = 0;
